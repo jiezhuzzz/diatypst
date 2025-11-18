@@ -12,6 +12,7 @@
   footer-subtitle: none,
   date: none,
   authors: (),
+  co-authors: (),
   layout: "medium",
   ratio: 4/3,
   title-color: none,
@@ -450,12 +451,17 @@
       ]} +
       if subtitle != none and date != none { text(1.4em)[ \ ] } +
       if date != none {text(1.1em, date)} +
-      align(left+bottom, authors.join(", ", last: " & "))
+      align(left+bottom, [
+        #text(1.2em, strong(authors.join(", ", last: " & ")))
+        #if co-authors != () {
+          [\ #co-authors.join(", ", last: " and ")]
+        }
+      ])
     )
     place(
       bottom + right,
-      dx: -0.5*space,
-      dy: -0.5*space,
+      dx: -0.3*space,
+      dy: -0.3*space,
       image("assets/logo.svg", width: 5cm)
     )
   }
