@@ -452,6 +452,12 @@
       if date != none {text(1.1em, date)} +
       align(left+bottom, authors.join(", ", last: " & "))
     )
+    place(
+      bottom + right,
+      dx: -0.5*space,
+      dy: -0.5*space,
+      image("assets/logo.svg", width: 5cm)
+    )
   }
 
   // Outline
