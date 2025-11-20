@@ -60,30 +60,35 @@
       fill: title-color,
       width: 100%,
       height: 60%,
-      align(bottom)[#text(2.0em, weight: "bold", fill: bg-color, title)]
+      align(bottom)[#text(2.0em, weight: "bold", fill: bg-color, title)],
     )
     block(
       height: 30%,
       width: 100%,
       inset: (x: 0.5 * space, top: 0cm, bottom: 1em),
-      if subtitle != none {[
-        #text(1.4em, fill: title-color, weight: "bold", subtitle)
-      ]} +
-      if subtitle != none and date != none { text(1.4em)[ \ ] } +
-      if date != none {text(1.1em, date)} +
-      align(left + bottom, [
-        #text(1.2em, fill: black, weight: "bold", authors.join(", ", last: " & "))
-        #if co-authors != () {
-          [\ #co-authors.join(", ", last: " and ")]
-        }
-      ])
+      if subtitle != none {
+        [
+          #text(1.4em, fill: title-color, weight: "bold", subtitle)
+        ]
+      }
+        + if subtitle != none and date != none { text(1.4em)[ \ ] }
+        + if date != none { text(1.1em, date) }
+        + align(left + bottom, [
+          #text(1.2em, fill: black, weight: "bold", authors.join(
+            ", ",
+            last: " & ",
+          ))
+          #if co-authors != () {
+            [\ #co-authors.join(", ", last: " and ")]
+          }
+        ]),
     )
     if logo != none {
       place(
         bottom + right,
         dx: -0.3 * space,
         dy: -0.3 * space,
-        logo
+        logo,
       )
     }
   }
@@ -95,7 +100,7 @@
       config-page(margin: 0cm, header: none, footer: none),
     ),
     config: config,
-    content
+    content,
   )
 })
 
@@ -113,7 +118,7 @@
       align: (right, left),
       fill: (title-color, bg-color),
       [#block(height: 100%)],
-      [#text(1.2em, weight: "bold", fill: title-color)[#body]]
+      [#text(1.2em, weight: "bold", fill: title-color)[#body]],
     )
   }
 
@@ -123,7 +128,7 @@
       config-page(margin: 0cm, header: none, footer: none),
     ),
     config: config,
-    content
+    content,
   )
 })
 
@@ -147,40 +152,42 @@
   let count-type = self.store.count
   let fill-color = self.colors.fill
 
-  // Section heading display  
-  context {  
-    let current-slide = utils.slide-counter.get().first()  
-    let headings = query(selector(heading.where(level: 2)))  
-    let heading = headings.rev().find(x => {  
-      utils.slide-counter.at(x.location()).first() <= current-slide  
-    })  
-    
-    if heading != none {  
-      let heading-slide = utils.slide-counter.at(heading.location()).first()  
-      set align(top)  
-      if (theme == "full") {  
-        block(  
-          width: 100%,  
-          fill: title-color,  
-          height: space * 0.85,  
-          outset: (x: 0.5 * space)  
-        )[  
-          #set text(1.4em, weight: "bold", fill: bg-color)  
-          #v(space / 2)  
-          #heading.body  
-          #if heading-slide != current-slide [  
-            #{numbering("(i)", current-slide - heading-slide + 1)}  
-          ]  
-        ]  
-      } else if (theme == "normal") {  
-        set text(1.4em, weight: "bold", fill: title-color)  
-        v(space / 2)  
-        heading.body  
-        if heading-slide != current-slide [  
-          #{numbering("(i)", current-slide - heading-slide + 1)}  
-        ]  
-      }  
-    }  
+  // Section heading display
+  context {
+    let current-slide = utils.slide-counter.get().first()
+    let headings = query(selector(heading.where(level: 2)))
+    let heading = headings
+      .rev()
+      .find(x => {
+        utils.slide-counter.at(x.location()).first() <= current-slide
+      })
+
+    if heading != none {
+      let heading-slide = utils.slide-counter.at(heading.location()).first()
+      set align(top)
+      if (theme == "full") {
+        block(
+          width: 100%,
+          fill: title-color,
+          height: space * 0.85,
+          outset: (x: 0.5 * space),
+        )[
+          #set text(1.4em, weight: "bold", fill: bg-color)
+          #v(space / 2)
+          #heading.body
+          #if heading-slide != current-slide [
+            #{ numbering("(i)", current-slide - heading-slide + 1) }
+          ]
+        ]
+      } else if (theme == "normal") {
+        set text(1.4em, weight: "bold", fill: title-color)
+        v(space / 2)
+        heading.body
+        if heading-slide != current-slide [
+          #{ numbering("(i)", current-slide - heading-slide + 1) }
+        ]
+      }
+    }
   }
 
   // Page counter
@@ -196,7 +203,11 @@
         for i in range(1, limit + 1) {
           if i <= current {
             link((page: i, x: 0pt, y: 0pt))[
-              #box(circle(radius: 0.06cm, fill: fill-color, stroke: 1pt + fill-color))
+              #box(circle(
+                radius: 0.06cm,
+                fill: fill-color,
+                stroke: 1pt + fill-color,
+              ))
             ]
           } else {
             link((page: i, x: 0pt, y: 0pt))[
@@ -209,7 +220,11 @@
         for i in range(limit + 1, last + 1) {
           if i <= current {
             link((page: i, x: 0pt, y: 0pt))[
-              #box(circle(radius: 0.06cm, fill: fill-color, stroke: 1pt + fill-color))
+              #box(circle(
+                radius: 0.06cm,
+                fill: fill-color,
+                stroke: 1pt + fill-color,
+              ))
             ]
           } else {
             link((page: i, x: 0pt, y: 0pt))[
@@ -222,7 +237,11 @@
         for i in range(1, last + 1) {
           if i <= current {
             link((page: i, x: 0pt, y: 0pt))[
-              #box(circle(radius: 0.08cm, fill: fill-color, stroke: 1pt + fill-color))
+              #box(circle(
+                radius: 0.08cm,
+                fill: fill-color,
+                stroke: 1pt + fill-color,
+              ))
             ]
           } else {
             link((page: i, x: 0pt, y: 0pt))[
@@ -250,21 +269,38 @@
       }
 
       let current-section-slide = if sections.len() > 0 {
-        utils.slide-counter.at(sections.at(current-section-idx).location()).first()
+        utils
+          .slide-counter
+          .at(sections.at(current-section-idx).location())
+          .first()
       } else { 1 }
 
       let next-section-slide = if current-section-idx + 1 < sections.len() {
-        utils.slide-counter.at(sections.at(current-section-idx + 1).location()).first()
+        utils
+          .slide-counter
+          .at(sections.at(current-section-idx + 1).location())
+          .first()
       } else { last }
 
       // Display section-specific counter
       if next-section-slide - current-section-slide >= 3 {
         // Show section navigation with dots
-        for i in range(current-section-slide, calc.min(next-section-slide, last) + 1) {
+        for i in range(
+          current-section-slide,
+          calc.min(next-section-slide, last) + 1,
+        ) {
           if i == current {
-            box(circle(radius: 0.08cm, fill: fill-color, stroke: 1pt + fill-color))
+            box(circle(
+              radius: 0.08cm,
+              fill: fill-color,
+              stroke: 1pt + fill-color,
+            ))
           } else if i < current {
-            box(circle(radius: 0.06cm, fill: fill-color.lighten(30%), stroke: 1pt + fill-color))
+            box(circle(
+              radius: 0.06cm,
+              fill: fill-color.lighten(30%),
+              stroke: 1pt + fill-color,
+            ))
           } else {
             box(circle(radius: 0.08cm, stroke: 1pt + fill-color))
           }
@@ -321,7 +357,7 @@
         outset: (left: 0.5 * space, bottom: 0cm),
         height: 0.3 * space,
         fill: fill-color,
-        inset: (right: 3pt)
+        inset: (right: 3pt),
       )[
         #v(0.1 * space)
         #set align(right)
@@ -332,7 +368,7 @@
         outset: (right: 0.5 * space, bottom: 0cm),
         height: 0.3 * space,
         fill: body-color,
-        inset: (left: 3pt)
+        inset: (left: 3pt),
       )[
         #v(0.1 * space)
         #set align(left)
@@ -347,8 +383,7 @@
       columns: (1fr, 1fr),
       align: (right, left),
       inset: 4pt,
-      [#smallcaps()[#footer-title-text]],
-      [#footer-subtitle-text],
+      [#smallcaps()[#footer-title-text]], [#footer-subtitle-text],
     )
   }
 }
@@ -373,7 +408,7 @@
 /// )
 /// ```
 #let diatypst-theme(
-  aspect-ratio: 4/3,
+  aspect-ratio: 4 / 3,
   layout: "medium",
   title-color: none,
   bg-color: white,
@@ -396,7 +431,9 @@
   let space = layout-config.space
 
   if count not in (none, "dot", "number", "dot-section") {
-    panic("Unknown Count, valid counts are 'dot', 'number', 'dot-section', or none")
+    panic(
+      "Unknown Count, valid counts are 'dot', 'number', 'dot-section', or none",
+    )
   }
 
   if theme not in ("normal", "full") {
@@ -414,9 +451,9 @@
 
   // Convert aspect-ratio if string
   let ratio = if type(aspect-ratio) == str {
-    if aspect-ratio == "16-9" { 16/9 }
-    else if aspect-ratio == "4-3" { 4/3 }
-    else { eval(aspect-ratio) }
+    if aspect-ratio == "16-9" { 16 / 9 } else if aspect-ratio == "4-3" {
+      4 / 3
+    } else { eval(aspect-ratio) }
   } else { aspect-ratio }
 
   let width = ratio * height
@@ -452,7 +489,11 @@
                 align: (right, left),
                 fill: (title-color, bg-color),
                 [#block(height: 100%)],
-                [#text(1.2em, weight: "bold", fill: title-color)[#utils.display-current-heading(level: 1)]]
+                [#text(
+                  1.2em,
+                  weight: "bold",
+                  fill: title-color,
+                )[#utils.display-current-heading(level: 1)]],
               )
             },
           )
@@ -475,14 +516,22 @@
         show terms.item: it => {
           set block(width: 100%, inset: 5pt)
           stack(
-            block(fill: header-color, radius: (top: 0.2em, bottom: 0cm), strong(it.term)),
-            block(fill: block-color, radius: (top: 0cm, bottom: 0.2em), it.description),
+            block(fill: header-color, radius: (top: 0.2em, bottom: 0cm), strong(
+              it.term,
+            )),
+            block(
+              fill: block-color,
+              radius: (top: 0cm, bottom: 0.2em),
+              it.description,
+            ),
           )
         }
 
         // Code
         show raw.where(block: false): it => {
-          box(fill: block-color, inset: 1pt, radius: 1pt, baseline: 1pt)[#text(it)]
+          box(fill: block-color, inset: 1pt, radius: 1pt, baseline: 1pt)[#text(
+            it,
+          )]
         }
         show raw.where(block: true): it => {
           block(radius: 0.5em, fill: block-color, width: 100%, inset: 1em, it)
@@ -504,8 +553,10 @@
           stroke: (x, y) => (
             x: none,
             bottom: 0.8pt + black,
-            top: if y == 0 {0.8pt + black} else if y == 1 {0.4pt + black} else { 0pt },
-          )
+            top: if y == 0 { 0.8pt + black } else if y == 1 {
+              0.4pt + black
+            } else { 0pt },
+          ),
         )
         show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
         set table.hline(stroke: 0.4pt + black)
@@ -516,9 +567,12 @@
         show quote.where(block: true): it => {
           v(-5pt)
           block(
-            fill: block-color, inset: 5pt, radius: 1pt,
-            stroke: (left: 3pt + fill-color), width: 100%,
-            outset: (left: -5pt, right: -5pt, top: 5pt, bottom: 5pt)
+            fill: block-color,
+            inset: 5pt,
+            radius: 1pt,
+            stroke: (left: 3pt + fill-color),
+            width: 100%,
+            outset: (left: -5pt, right: -5pt, top: 5pt, bottom: 5pt),
           )[#it]
           v(-5pt)
         }
@@ -560,7 +614,7 @@
       footer-title: footer-title,
       footer-subtitle: footer-subtitle,
       logo: logo,
-      subslide-preamble: none
+      subslide-preamble: none,
     ),
     ..args,
   )
