@@ -6,10 +6,7 @@
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 #import themes.metropolis: *
 
-#let uchicago-maroon = rgb("#7A0019")
 #show: codly-init.with()
-
-#codly(lang-format: none, stroke: 2pt + gray)
 
 #let cetz-canvas = touying-reducer.with(
   reduce: cetz.canvas,
@@ -20,7 +17,6 @@
   reduce: fletcher.diagram,
   cover: fletcher.hide,
 )
-
 
 #let callout(title: none, body) = {
   rect(
@@ -39,38 +35,6 @@
   )
 }
 
-#codly(
-  languages: (
-    rust: (name: "Rust", icon: "🦀", color: rgb("#CE412B")),
-  ),
-)
-
-// #show: diatypst-theme.with(
-//   aspect-ratio: "16-9",
-//   layout: "medium",
-//   title-color: uchicago-maroon,
-//   count: "dot",
-//   footer: true,
-//   toc: false,
-//   theme: "normal",
-//   logo: image("assets/logo.svg", width: 5cm),
-//   config-info(
-//     title: "Locus",
-//     subtitle: "Synthesizing Fine-grained Predicates for Curriculum Fuzzing",
-//     author: "Jie Zhu",
-//     date: datetime.today().display(),
-//   ),
-// )
-
-// #title-slide(
-//   title: "Locus",
-//   subtitle: "Synthesizing Fine-grained Predicates for Curriculum Fuzzing",
-//   authors: ("Jie Zhu",),
-//   co-authors: ("Chihao Shen", "Ziyang Li", "Jiahao Yu", "Yizheng Chen", "Kexin Pei"),
-//   date: datetime.today().display(),
-//   logo: image("assets/logo.svg", width: 5cm),
-// )
-
 #show: metropolis-theme.with(
   aspect-ratio: "16-9",
   footer: self => self.info.institution,
@@ -88,10 +52,23 @@
   config-colors(
     primary: rgb("#eb811b"),
     primary-light: rgb("#d6c6b7"),
-    secondary: uchicago-maroon,
+    secondary: rgb("#7A0019"),
     neutral-lightest: rgb("#fafafa"),
     neutral-dark: rgb("#23373b"),
     neutral-darkest: rgb("#23373b"),
+  ),
+  config-common(
+    handout: false, // whether to generate handout
+    preamble: {
+      codly(
+        lang-format: none,
+        stroke: 2pt + gray,
+        languages: (
+          rust: (name: "Rust", icon: "🦀", color: rgb("#CE412B")),
+          python: (name: "Python", icon: "🐍", color: rgb("#3572A5")),
+        ),
+      )
+    },
   ),
 )
 
@@ -178,7 +155,12 @@
 == Alerts are cheap, show me the PoV!
 
 #callout(title: [Proof of vulnerability (PoV) generation
-])[PoVs serve as the foundation of the AIxCC scoring system because they demonstrate that vulnerabilities can actually be triggered. #highlight[PoV+patch combinations earn significantly higher point values than patches submitted without PoV.] The competition’s scoring system also rewards speed and accuracy. Furthermore, PoVs can be used to bypass other teams’ patches and reduce competitors’ accuracy multipliers, which adds an interesting game theory element to the competition.
+])[
+  #alternatives[
+    PoVs serve as the foundation of the AIxCC scoring system because they demonstrate that vulnerabilities can actually be triggered. #highlight[PoV+patch combinations earn significantly higher point values than patches submitted without PoV.] The competition’s scoring system also rewards speed and accuracy. Furthermore, PoVs can be used to bypass other teams’ patches and reduce competitors’ accuracy multipliers, which adds an interesting game theory element to the competition.
+  ][
+    PoVs serve as the foundation of the AIxCC scoring system because they demonstrate that vulnerabilities can actually be triggered. PoV+patch combinations earn significantly higher point values than patches submitted without PoV. The competition’s scoring system also rewards speed and accuracy. Furthermore, #highlight[PoVs can be used to bypass other teams’ patches and reduce competitors’ accuracy multipliers], which adds an interesting game theory element to the competition.
+  ]
 ]
 
 #speaker-note[
